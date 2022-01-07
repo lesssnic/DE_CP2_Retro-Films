@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const baseRepository = require('../database/repositories/base.repository');
 const {getFilmDetails} = require('../model/get.film_details.axios');
+const { readFile, read } = require('fs/promises');
 
 const getContentType = (url) => {
     switch(path.extname(url)) {
@@ -18,7 +19,6 @@ const getContentType = (url) => {
         default:
             return 'application/octate-stream';
     }
-
 }
 const getIndex = async (url, contentType, res) => {
     const file = path.join(`${__dirname}/../swagger/${url}`);
@@ -27,19 +27,34 @@ const getIndex = async (url, contentType, res) => {
         res.statusCode = 404;
         res.end(JSON.stringify('Route Not Found'));
     }else{
+        try {
+            const result = await readFile(file);
+            return {result: {data: result.toString(), status: 200, type: extension}}
+        } catch (err) {
+            return {error: { status: 404, data: { err } }};
+        }
+
+    }
+};
+const sdffdf = (file) => {
     fs.readFile(file, (err, content) => {
         if(err){
             res.writeHead(404);
             res.write('file not found');
             res.end();
+            return err;
         }else {
             res.writeHead(200, {'Content-type': extension});
             res.write(content);
             res.end();
+            return content;
         }
     })
-    }
-};
+}
+
+
+
+
 const writeBase = async (url, contentType, res) => {
     const file = path.join(`${__dirname}/../swagger/${url}`);
     const extension = getContentType(url);
@@ -90,4 +105,4 @@ const writeBaseAdd = async (url, contentType, res) => {
 };
 
 
-module.exports = {getIndex, writeBase, writeBaseAdd};
+module.exports = {getIndex, writeBase, writeBaseAdd, getContentType};

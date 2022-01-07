@@ -2,6 +2,16 @@ CREATE DATABASE comand_project_retro
     WITH 
     OWNER = postgres
     TABLESPACE = pg_default;
+   
+CREATE OR REPLACE FUNCTION trigger_set_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
 
 CREATE TABLE films(
 	id serial PRIMARY KEY,
@@ -27,4 +37,21 @@ CREATE TABLE films(
 	vote_count REAL
 );
 
+DELETE FROM films WHERE status IS NULL ;
 
+CREATE TABLE users (
+ id serial PRIMARY KEY,
+ login varchar(254) UNIQUE NOT NULL,
+ password varchar(254),
+ first_name varchar(254),
+ last_name varchar(254),
+ email varchar(254),
+ user_role varchar(50),
+ created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+ updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON users
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();

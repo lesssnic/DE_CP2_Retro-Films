@@ -1,4 +1,4 @@
 module.exports = {
-    GET_STREET: '/get-street',
-    GET_EXECUTIONTIME: '/get-execution-time'
+    CREATE_PERSON: '/user/sign_up',
+    AUTH_PERSON: '/user/sign_in'
 }
