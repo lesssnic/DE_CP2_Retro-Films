@@ -1,3 +1,6 @@
+exports.movieValidator = require('./movie.validator').movieValidator;
+exports.idValidator = require('./id.validator').idValidator;
+exports.movieQuweryValidator = require('./movie.validator').movieQuweryValidator;
 exports.userValidator = require('./user.validator').userValidator;
 
 exports.validate = (data, schema) => {

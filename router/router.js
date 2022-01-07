@@ -1,6 +1,7 @@
 const URL = require('url');
-const {AUTH_PERSON, CREATE_PERSON} = require('../constants/route');
-const {getIndex, getContentType} = require('../controllers/index.controller');
+const { AUTH_PERSON, CREATE_PERSON } = require('../constants/route');
+const { getIndex, getContentType } = require('../controllers/index.controller');
+const { getSingleMovie, getMovies } = require('../controllers/movie.controller');
 const {getUser, addUser} = require('../controllers/users.controller');
 
 async function routerHandler(req, res, body) {
@@ -21,9 +22,11 @@ async function routerHandler(req, res, body) {
             ({result, error} = await getUser(body));
             if (result) res.setHeader('token',`${result.token}`);
             break;
-        // case (method ==='GET' && pathname === '/movie.json'):
-        //     await writeBaseAdd(pathname, 'text/html', res);
-        //     break;
+        case (method === 'GET' && pathname === '/movie'):
+            const params = Object.keys(query);
+            if (params.length === 1 && params[0] === 'id') ({ result, error } = await getSingleMovie(query));
+            else ({ result, error } = await getMovies(query));
+            break;
         case (pathname === '/'):
             ({result, error} = await getIndex('index.html', 'text/html', res));
             if (result) res.setHeader('Content-type', `${result.type}`);
@@ -44,4 +47,4 @@ async function routerHandler(req, res, body) {
     }
 
 }
-module.exports = {routerHandler};
+module.exports = { routerHandler };
