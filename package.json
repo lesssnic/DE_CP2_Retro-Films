@@ -1,0 +1,18 @@
+{
+  "name": "20211207-noda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "joi": "^17.5.0"
+  }
+}

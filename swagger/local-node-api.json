@@ -1,0 +1,62 @@
+swagger: "2.0"
+info:
+  description: "This is a Node server."
+  version: "1.0.0"
+  title: "Swagger Class-Error-Homework"
+host: "localhost:3001"
+basePath: "/"
+schemes:
+- "http"
+paths:
+  /get-street:
+    get:
+      tags:
+      - "street"
+      summary: "Get street"
+      description: ""
+      operationId: "getStreet"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "id"
+        description: "id"
+        type: "string"
+      responses:
+        "200":
+          description: "Invalid input"
+  /get-execution-time:
+    get:
+      tags:
+      - "factorial"
+      summary: "factorial"
+      description: "recursion or cycle"
+      operationId: "factorial"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "type"
+        type: "string"
+        nullable: false
+        enum: ["recursion", "cycle"]
+        description: ""
+      - in: "query"
+        name: "number"
+        type: "number"
+        description: ""
+      responses:
+        "200":
+          description: "Invalid input"
+
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
