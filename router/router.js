@@ -39,7 +39,6 @@ async function routerHandler(req, res, body) {
     else {
         res.statusCode = result.status;
         res.end(JSON.stringify(result.data));
-
     }
 
 }
