@@ -4,16 +4,17 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon servers.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
+    "joi": "^17.5.0",
     "jsonwebtoken": "^8.5.1",
-    "pg": "^8.7.1",
-    "joi": "^17.5.0"
+    "nodemon": "^2.0.15",
+    "pg": "^8.7.1"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
