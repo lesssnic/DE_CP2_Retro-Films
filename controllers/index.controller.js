@@ -24,14 +24,13 @@ const getIndex = async (url, contentType, res) => {
     const file = path.join(`${__dirname}/../swagger/${url}`);
     const extension = getContentType(url);
     if(!extension) {
-        res.statusCode = 404;
-        res.end(JSON.stringify('Route Not Found'));
+        return {error: { status: 404, error: 'Route Not Found'}}
     }else{
         try {
             const result = await readFile(file);
             return {result: {data: result.toString(), status: 200, type: extension}}
         } catch (err) {
-            return {error: { status: 404, data: { err } }};
+            return {error: { status: 404, error: 'File not found'}};
         }
 
     }
