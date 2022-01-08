@@ -11,5 +11,27 @@ const getFilmDetails = async(id) => {
         return {error: err};
     }
 }
+const getGenresAxios = async() => {
+    try{
+        const {data} = await axios.get(`https://api.themoviedb.org/3/genre/movie/list`,{ params: {
+                api_key : link.API_KEY}
+        });
+        return {result: data};
+    }catch (err) {
+        return {error: err};
+    }
+}
+const getLangAxios = async() => {
+    try{
+        const {data} = await axios.get(`https://api.themoviedb.org/3/configuration/languages`,{ params: {
+                api_key : link.API_KEY}
+        });
+        return {result: data};
+    }catch (err) {
+        return {error: err};
+    }
+}
 
-module.exports = {getFilmDetails};
+module.exports = {getFilmDetails, getGenresAxios, getLangAxios};
+
+

@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const secret = 'ryeitooel';
 const options = {
-    expiresIn: 60 * 60
+    expiresIn: 60 * 60 * 24
 }
 
 exports.genToken = ({first_name, last_name, login}) => {return jwt.sign(
