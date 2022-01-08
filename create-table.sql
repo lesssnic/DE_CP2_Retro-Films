@@ -11,8 +11,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
-
 CREATE TABLE films(
 	id serial PRIMARY KEY,
 	original_title varchar(254) NOT NULL,
@@ -55,3 +53,11 @@ CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON users
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
+
+
+INSERT INTO users (first_name, last_name, login, password)
+                       VALUES ('Anton', 'Felix','ssmnemon', 'passw0rd')
+                       RETURNING login;
+                      
+SELECT password FROM users 
+WHERE login = 'cryptedpassword';
