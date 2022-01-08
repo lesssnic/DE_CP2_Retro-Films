@@ -13,6 +13,7 @@ async function routerHandler(req, res, body) {
     let result, error;
     const { method, url, headers } = req;
     const { query, pathname } = URL.parse(url, true);
+    const { token } = headers;
     switch (true) {
         case (req.method === "OPTIONS"):
             res.statusCode = 200;
@@ -25,15 +26,15 @@ async function routerHandler(req, res, body) {
             if (result) res.setHeader('token', `${result.token}`);
             break;
         case (method === 'GET' && pathname === GENRES):
-            ({ result, error } = await getGenres(headers));
+            ({ result, error } = await getGenres(token));
             break;
         case (method === 'GET' && pathname === LANGUAGES):
-            ({ result, error } = await getLanguages(headers));
+            ({ result, error } = await getLanguages(token));
             break;
         case (method === 'GET' && pathname === MOVIE):
             const params = Object.keys(query);
-            if (params.length === 1 && params[0] === 'id') ({ result, error } = await getSingleMovie(query));
-            else ({ result, error } = await getMovies(query));
+            if (params.length === 1 && params[0] === 'id') ({ result, error } = await getSingleMovie(query, token));
+            else ({ result, error } = await getMovies(query, token));
             break;
         // case (method ==='GET' && pathname === '/movie.json'):
         //     await writeBaseAdd(pathname, 'text/html', res);
