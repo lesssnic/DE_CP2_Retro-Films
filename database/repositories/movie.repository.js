@@ -24,7 +24,7 @@ exports.getMovieByFilters = async ({ adult, title, release_date_first, release_d
                               } ${
                           budget_min && budget_max ?
                               `AND page.budget BETWEEN ${budget_min} AND ${budget_max}` : ''
-                              } offset ${first || 0} LIMIT ${pre_page || 1000}`);
+                              } offset ${first || 0} LIMIT ${pre_page || 100}`);
     
     return { result: { totalCount: movie.rows.length, data: movie.rows, currentPage: page } };
   } catch (e) {
