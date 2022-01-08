@@ -3,5 +3,6 @@ module.exports = {
     AUTH_PERSON: '/user/sign_in',
     GENRES: '/genres',
     LANGUAGES: '/languages',
-    MOVIE: '/movie'
+    MOVIE: '/movie',
+    MOVIES: '/movies'
 }

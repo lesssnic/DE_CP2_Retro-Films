@@ -107,7 +107,6 @@ paths:
           description: "OK"
         "401":
           description: "Not Auth"
-
   /movie:
     get:
       tags:
@@ -133,7 +132,85 @@ paths:
         format: "int64"
       responses:
         "200":
-          description: "Invalid input"
+          description: "OK"
+        "401":
+          description: "Not Auth"
+  /movies:
+    get:
+      tags:
+      - "movie"
+      summary: "Get movie by filter"
+      description: ""
+      operationId: "Get movie by filter"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "token"
+        type: "string"
+      - in: "query"
+        name: "adult"
+        type: "boolean"
+        description: "false"
+      - in: "query"
+        name: "page"
+        type: "number"
+        description: "0"
+      - in: "query"
+        name: "pre_page"
+        type: "number"
+        description: "20"
+      - in: "query"
+        name: "budget_min"
+        type: "number"
+        description: "100000"
+      - in: "query"
+        name: "budget_max"
+        type: "number"
+        description: "2000000"
+      - in: "query"
+        name: "language"
+        type: "string"
+        description: "en"
+      - in: "query"
+        name: "title"
+        type: "string"
+        description: "Mortal Combat"
+      - in: "query"
+        name: "popularity_min"
+        type: "number"
+        description: "0"
+      - in: "query"
+        name: "popularity_max"
+        type: "number"
+        description: "10000"
+      - in: "query"
+        name: "release_date_first"
+        type: "string"
+        description: "2015-12-27"
+      - in: "query"
+        name: "release_date_last"
+        type: "string"
+        description: "2021-12-27"
+      - in: "query"
+        name: "revenue_min"
+        type: "number"
+        description: "201500"
+      - in: "query"
+        name: "revenue_max"
+        type: "number"
+        description: "981500"
+      - in: "query"
+        name: "status"
+        type: "string"
+        enum: ["Rumored", "Planned", "In Production", "Post Production", "Released", "Canceled"]
+      responses:
+        "200":
+          description: "OK"
         "401":
           description: "Not Auth"
 

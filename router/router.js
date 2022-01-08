@@ -1,5 +1,5 @@
 const URL = require('url');
-const { AUTH_PERSON, CREATE_PERSON, GENRES, LANGUAGES, MOVIE } = require('../constants/route');
+const { AUTH_PERSON, CREATE_PERSON, GENRES, LANGUAGES, MOVIE, MOVIES } = require('../constants/route');
 const { getIndex, getContentType } = require('../controllers/index.controller');
 const { getUser, addUser } = require('../controllers/users.controller');
 const { getGenres } = require('../controllers/genres.controller');
@@ -32,13 +32,11 @@ async function routerHandler(req, res, body) {
             ({ result, error } = await getLanguages(token));
             break;
         case (method === 'GET' && pathname === MOVIE):
-            const params = Object.keys(query);
-            if (params.length === 1 && params[0] === 'id') ({ result, error } = await getSingleMovie(query, token));
-            else ({ result, error } = await getMovies(query, token));
+            ({ result, error } = await getSingleMovie(query, token));
             break;
-        // case (method ==='GET' && pathname === '/movie.json'):
-        //     await writeBaseAdd(pathname, 'text/html', res);
-        //     break;
+        case (method === 'GET' && pathname === MOVIES):
+            ({ result, error } = await getMovies(query, token));
+            break;
         case (pathname === '/'):
             ({ result, error } = await getIndex('index.html', 'text/html', res));
             if (result) res.setHeader('Content-type', `${result.type}`);
