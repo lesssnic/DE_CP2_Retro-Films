@@ -49,6 +49,20 @@ CREATE TABLE users (
  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE genres (
+ id serial primary key,
+ name varchar
+);
+
+CREATE TABLE films_genres(
+ films_id int,
+ genre_id int,
+ foreign key (films_id) references films(id),
+ foreign key (genre_id) references genres(id) 
+ ON DELETE CASCADE
+ ON UPDATE CASCADE
+);
+
 CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON users
 FOR EACH ROW

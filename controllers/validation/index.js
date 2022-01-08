@@ -1,4 +1,7 @@
 exports.userValidator = require('./user.validator').userValidator;
+exports.movieValidator = require('./movie.validator').movieValidator;
+exports.idValidator = require('./id.validator').idValidator;
+exports.movieQuweryValidator = require('./movie.validator').movieQuweryValidator;
 
 exports.validate = (data, schema) => {
     const result = schema.validate(data, { abortEarly: false });
