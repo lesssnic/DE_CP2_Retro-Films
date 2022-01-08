@@ -27,7 +27,7 @@ async function routerHandler(req, res, body) {
             ({result, error} = await getGenres(headers));
             break;
         case (method ==='GET' && pathname === LANGUAGES):
-            ({result, error} = await getLanguages(query));
+            ({result, error} = await getLanguages(headers));
             break;
         // case (method ==='GET' && pathname === '/movie.json'):
         //     await writeBaseAdd(pathname, 'text/html', res);

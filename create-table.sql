@@ -61,3 +61,14 @@ INSERT INTO users (first_name, last_name, login, password)
                       
 SELECT password FROM users 
 WHERE login = 'cryptedpassword';
+
+create table genres (
+ id serial primary key,
+ name varchar(100)
+ );
+ 
+create table languages (
+ iso_639_1 varchar(10) primary key,
+ name varchar(100),
+ english_name varchar(100)
+ );
