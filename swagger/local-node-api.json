@@ -62,6 +62,81 @@ paths:
           description: "Bad request, wrong data"
         "401":
           description: "Wrong login or password"
+  /genres:
+    get:
+      tags:
+      - "genres"
+      summary: "Get genres"
+      description: ""
+      operationId: "Get genres"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "token"
+        type: "string"
+      responses:
+        "200":
+          description: "OK"
+        "401":
+          description: "Not Auth"
+
+  /languages:
+    get:
+      tags:
+      - "languages"
+      summary: "Get languages"
+      description: ""
+      operationId: "Get languages"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "token"
+        type: "string"
+      responses:
+        "200":
+          description: "OK"
+        "401":
+          description: "Not Auth"
+
+  /movie:
+    get:
+      tags:
+      - "movie"
+      summary: "Get movie by ID"
+      description: ""
+      operationId: "Get movie by ID"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "token"
+        type: "string"
+      - in: "query"
+        name: "id"
+        type: "number"
+        description: "ID of movie to return"
+        required: true
+        format: "int64"
+      responses:
+        "200":
+          description: "Invalid input"
+        "401":
+          description: "Not Auth"
+
 definitions:
   sign-in:
     type: "object"
