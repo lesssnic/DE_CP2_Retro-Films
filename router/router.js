@@ -1,5 +1,5 @@
 const URL = require('url');
-const { AUTH_PERSON, CREATE_PERSON, GENRES, LANGUAGES } = require('../constants/route');
+const { AUTH_PERSON, CREATE_PERSON, GENRES, LANGUAGES, MOVIE } = require('../constants/route');
 const { getIndex, getContentType } = require('../controllers/index.controller');
 const { getUser, addUser } = require('../controllers/users.controller');
 const { getGenres } = require('../controllers/genres.controller');
@@ -28,9 +28,9 @@ async function routerHandler(req, res, body) {
             ({ result, error } = await getGenres(headers));
             break;
         case (method === 'GET' && pathname === LANGUAGES):
-            ({ result, error } = await getLanguages(query));
+            ({ result, error } = await getLanguages(headers));
             break;
-        case (method === 'GET' && pathname === '/movie'):
+        case (method === 'GET' && pathname === MOVIE):
             const params = Object.keys(query);
             if (params.length === 1 && params[0] === 'id') ({ result, error } = await getSingleMovie(query));
             else ({ result, error } = await getMovies(query));
