@@ -16,8 +16,6 @@ const getContentType = (url) => {
             return 'text/javascript';
         case '.json':
             return 'application/json';
-        case '.png':
-            return 'image/png';
         default:
             return 'application/octate-stream';
     }
@@ -26,16 +24,11 @@ const getIndex = async (url, contentType, res) => {
     const file = path.join(`${__dirname}/../swagger/${url}`);
     const extension = getContentType(url);
     if(!extension) {
-        try {
-            const result = await readFile(`${__dirname}/../swagger/error.html`);
-            return {result: {data: result.toString(), status: 404, type: 'text/html'}}
-        } catch (err) {
-            return {error: { status: 404, error: 'Route not found'}};
-        }
+        return {error: { status: 404, error: 'Route Not Found'}}
     }else{
         try {
             const result = await readFile(file);
-            return {result: {data: result, status: 200, type: extension}}
+            return {result: {data: result.toString(), status: 200, type: extension}}
         } catch (err) {
             return {error: { status: 404, error: 'File not found'}};
         }

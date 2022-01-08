@@ -3,7 +3,6 @@ const dataBaseError = require('../controllers/errors/db.error');
 const validators = require('./validation');
 const {checkHash, generateHash} = require('./bcrypt/bcrypt');
 const {genToken} = require('./jwt/jwt');
-const {getStatus} = require('./status/user.status')
 
 const addUser = async (body) => {
     const { value, error } = validators.validate(body, validators.userValidator);
@@ -16,16 +15,16 @@ const addUser = async (body) => {
 
 const getUser = async (body) => {
     const { value, error } = validators.validate(body, validators.userValidator);
-    console.log(error);
     if (error) return { error };
     const {dbError, result} = await usersRepository.getUser(value.login);
+    let token = '';
     if(result.length) {
         const ifValidate = await checkHash(value.password, result[0].password);
-        if (ifValidate) result.token = await genToken(result);
+        if (ifValidate) token = await genToken(result);
     }
-    const data = getStatus(result);
+
     if (dbError) return { error: { status: 500, data: { dbError } } };
-    return { result: data };
+    return { result: { data: result, status: 200, token: token} };
 };
 
 module.exports = {addUser, getUser};

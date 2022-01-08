@@ -20,7 +20,7 @@ async function routerHandler(req, res, body) {
             break;
         case (method ==='POST' && pathname === AUTH_PERSON):
             ({result, error} = await getUser(body));
-            if (result) res.setHeader('token',`${result.token}`);
+            res.setHeader('token',`${result.token}`);
             break;
         case (method === 'GET' && pathname === '/movie'):
             const params = Object.keys(query);
@@ -37,7 +37,7 @@ async function routerHandler(req, res, body) {
     }
     if (error) {
         res.statusCode = error.status;
-        return res.end(JSON.stringify({error: error.data}));
+        return res.end(JSON.stringify({error: error.error}));
     } else if(result.type) {
         res.statusCode = result.status;
         res.end(result.data);

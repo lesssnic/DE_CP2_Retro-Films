@@ -2,19 +2,19 @@ swagger: "2.0"
 info:
   description: "This is a Node server."
   version: "1.0.0"
-  title: "Swagger Retro Films Project"
+  title: "Swagger Class-Error-Homework"
 host: "localhost:3001"
 basePath: "/"
 schemes:
 - "http"
 paths:
-  /user/sign-up:
-    post:
+  /get-street:
+    get:
       tags:
-      - "user"
-      summary: "sign_up"
+      - "street"
+      summary: "Get street"
       description: ""
-      operationId: "sign_up"
+      operationId: "getStreet"
       consumes:
       - "application/json"
       - "application/xml"
@@ -22,22 +22,20 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Create user"
-        required: true
-        schema:
-          $ref: "#/definitions/sign-up"
+      - in: "query"
+        name: "id"
+        description: "id"
+        type: "string"
       responses:
         "200":
           description: "Invalid input"
-  /user/sign-in:
-    post:
+  /get-execution-time:
+    get:
       tags:
-      - "user"
-      summary: "sign_in"
-      description: ""
-      operationId: "sign_in"
+      - "factorial"
+      summary: "factorial"
+      description: "recursion or cycle"
+      operationId: "factorial"
       consumes:
       - "application/json"
       - "application/xml"
@@ -45,34 +43,19 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Create user"
-        required: true
-        schema:
-          $ref: "#/definitions/sign-in"
+      - in: "query"
+        name: "type"
+        type: "string"
+        nullable: false
+        enum: ["recursion", "cycle"]
+        description: ""
+      - in: "query"
+        name: "number"
+        type: "number"
+        description: ""
       responses:
         "200":
           description: "Invalid input"
-definitions:
-  sign-in:
-    type: "object"
-    properties:
-      login:
-        type: "string"
-      password:
-        type: "string"
-  sign-up:
-    type: "object"
-    properties:
-      first_name:
-        type: "string"
-      last_name:
-        type: "string"
-      login:
-        type: "string"
-      password:
-        type: "string"
 
 externalDocs:
   description: "Find out more about Swagger"
