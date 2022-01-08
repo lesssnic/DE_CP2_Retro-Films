@@ -8,7 +8,7 @@ basePath: "/"
 schemes:
 - "http"
 paths:
-  /user/sign-up:
+  /user/sign_up:
     post:
       tags:
       - "user"
@@ -30,8 +30,12 @@ paths:
           $ref: "#/definitions/sign-up"
       responses:
         "200":
-          description: "Invalid input"
-  /user/sign-in:
+          description: "User created"
+        "400":
+          description: "Bad request, wrong data"
+        "406":
+          description: "User alreade exists"
+  /user/sign_in:
     post:
       tags:
       - "user"
@@ -52,8 +56,12 @@ paths:
         schema:
           $ref: "#/definitions/sign-in"
       responses:
-        "200":
-          description: "Invalid input"
+        "201":
+          description: "Access granted"
+        "400":
+          description: "Bad request, wrong data"
+        "401":
+          description: "Wrong login or password"
 definitions:
   sign-in:
     type: "object"

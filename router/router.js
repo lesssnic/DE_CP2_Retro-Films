@@ -1,14 +1,16 @@
 const URL = require('url');
-const {AUTH_PERSON, CREATE_PERSON} = require('../constants/route');
+const {AUTH_PERSON, CREATE_PERSON, GENRES, LANGUAGES} = require('../constants/route');
 const {getIndex, getContentType} = require('../controllers/index.controller');
 const {getUser, addUser} = require('../controllers/users.controller');
+const {getGenres} = require('../controllers/genres.controller');
+const {getLanguages} = require('../controllers/languages.controller');
 
 async function routerHandler(req, res, body) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS, POST, PUT, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     let result, error;
-    const { method, url } = req;
+    const { method, url, headers } = req;
     const { query, pathname } = URL.parse(url, true);
     switch (true) {
         case (req.method === "OPTIONS"):
@@ -20,6 +22,12 @@ async function routerHandler(req, res, body) {
         case (method ==='POST' && pathname === AUTH_PERSON):
             ({result, error} = await getUser(body));
             if (result) res.setHeader('token',`${result.token}`);
+            break;
+        case (method ==='GET' && pathname === GENRES):
+            ({result, error} = await getGenres(headers));
+            break;
+        case (method ==='GET' && pathname === LANGUAGES):
+            ({result, error} = await getLanguages(query));
             break;
         // case (method ==='GET' && pathname === '/movie.json'):
         //     await writeBaseAdd(pathname, 'text/html', res);

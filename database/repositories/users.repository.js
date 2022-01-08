@@ -13,7 +13,7 @@ async function addUser(value) {
 
 async function getUser(login) {
     try {
-        const result = await client.query(`SELECT password FROM users 
+        const result = await client.query(`SELECT password, first_name, last_name, login FROM users 
                                            WHERE login = '${login}';`);
         return {result: result.rows}
     }catch (error) {

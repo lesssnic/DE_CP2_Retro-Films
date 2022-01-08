@@ -16,7 +16,6 @@ const addUser = async (body) => {
 
 const getUser = async (body) => {
     const { value, error } = validators.validate(body, validators.userValidator);
-    console.log(error);
     if (error) return { error };
     const {dbError, result} = await usersRepository.getUser(value.login);
     if(result.length) {

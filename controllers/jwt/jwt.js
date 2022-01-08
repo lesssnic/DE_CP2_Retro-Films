@@ -4,5 +4,16 @@ const options = {
     expiresIn: 60 * 60
 }
 
-exports.genToken = ({first_name, last_name, email}) => {return jwt.sign(
-    {first_name, last_name, email}, secret, options)};
+exports.genToken = ({first_name, last_name, login}) => {return jwt.sign(
+    {first_name, last_name, login}, secret, options)};
+
+exports.verifyToken = (token) => {
+    let value, error;
+    try{
+        value = jwt.verify(token, secret);
+    }catch(err) {
+        error = err;
+    }
+    return {value, error}};
+
+
