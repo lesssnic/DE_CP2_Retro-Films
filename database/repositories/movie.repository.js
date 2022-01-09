@@ -8,23 +8,23 @@ exports.getMovieById = async (id) => {
     return { error: e.message };
   }
 };
-exports.getMovieByFilters = async ({ adult, title, release_date_first, release_date_last, revenue_min, revenue_max, status, budget_min, budget_max, popularity_min, popularity_max, page, pre_page }) => {
+exports.getMovieByFilters = async (params) => {
   try {
-    const first = (page * pre_page) - pre_page;
+    const first = (params.page * params.pre_page) - params.pre_page;
 
     const movie = await pgClient.query(`
       SELECT * FROM films films 
-      WHERE films.title ILIKE '%${title}%' 
-            AND films.release_date BETWEEN '${release_date_first}' AND '${release_date_last}'
-            AND films.revenue BETWEEN ${revenue_min} AND ${revenue_max}
-            AND films.status LIKE '%${status}%'
-            AND films.adult = '${adult}'
-            AND films.budget BETWEEN ${budget_min} AND ${budget_max} 
-            AND films.popularity BETWEEN ${popularity_min} AND ${popularity_max}
-      offset ${first} LIMIT ${pre_page}
+      WHERE films.title ILIKE '%${params.title}%' 
+            AND films.release_date BETWEEN '${params.release_date_first}' AND '${params.release_date_last}'
+            AND films.revenue BETWEEN ${params.revenue_min} AND ${params.revenue_max}
+            AND films.status LIKE '%${params.status}%'
+            AND films.adult = '${params.adult}'
+            AND films.budget BETWEEN ${params.budget_min} AND ${params.budget_max} 
+            AND films.popularity BETWEEN ${params.popularity_min} AND ${params.popularity_max}
+      offset ${first} LIMIT ${params.pre_page}
       `);
 
-    return { result: { totalCount: movie.rows.length, data: movie.rows, currentPage: page } };
+    return { result: { count: movie.rows.length, data: movie.rows, currentPage: params.page } };
   } catch (e) {
     return { error: e.message };
   }
