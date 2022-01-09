@@ -22,6 +22,7 @@ exports.movieValidator = Joi.object().keys({
 exports.movieQuweryValidator = Joi.object().keys({
     adult: Joi.string().alphanum().allow(null, ''),
     title: Joi.string().alphanum().allow(null, ''),
+    genre: Joi.string().alphanum().allow(null, ''),
     page: Joi.number().integer().min(0).empty(['', null]).default(0),
     pre_page: Joi.number().integer().min(0).empty(['', null]).default(100),
     budget_min: Joi.number().integer().min(0).empty(['', null]).default(0),
