@@ -11,8 +11,8 @@ const getLanguages = async (token) => {
     const err = getStatusAuth(value, error);
     if (error) return {error: err};
     const {dbError, result} = await languagesRepository.getLanguages();
+    if (dbError) return { error: dataBaseError.dbError(dbError) };
     const data = getStatus(result);
-    if (dbError) return { error: { status: 500, data: { dbError } } };
     return { result: data };
 };
 

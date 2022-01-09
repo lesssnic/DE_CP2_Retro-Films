@@ -1,10 +1,11 @@
 const URL = require('url');
-const { AUTH_PERSON, CREATE_PERSON, GENRES, LANGUAGES, MOVIE, MOVIES } = require('../constants/route');
+const { AUTH_PERSON, CREATE_PERSON, GENRES, LANGUAGES, MOVIE, MOVIES, REVIEW } = require('../constants/route');
 const { getIndex, getContentType } = require('../controllers/index.controller');
 const { getUser, addUser } = require('../controllers/users.controller');
 const { getGenres } = require('../controllers/genres.controller');
 const { getLanguages } = require('../controllers/languages.controller');
 const { getSingleMovie, getMovies } = require('../controllers/movie.controller');
+const { getReview, createReview, updateReview, deleteReview } = require('../controllers/review.controller');
 
 async function routerHandler(req, res, body) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -36,6 +37,18 @@ async function routerHandler(req, res, body) {
             break;
         case (method === 'GET' && pathname === MOVIES):
             ({ result, error } = await getMovies(query, token));
+            break;
+        case (method === 'GET' && pathname === REVIEW):
+            ({ result, error } = await getReview(token, query));
+            break;
+        case (method === 'POST' && pathname === REVIEW):
+            ({ result, error } = await createReview(token, body));
+            break;
+        case (method === 'PUT' && pathname === REVIEW):
+            ({ result, error } = await updateReview(token, body));
+            break;
+        case (method === 'DELETE' && pathname === REVIEW):
+            ({ result, error } = await deleteReview(token, query));
             break;
         case (pathname === '/'):
             ({ result, error } = await getIndex('index.html', 'text/html', res));

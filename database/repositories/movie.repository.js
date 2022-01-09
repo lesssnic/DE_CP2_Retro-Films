@@ -4,8 +4,8 @@ exports.getMovieById = async (id) => {
   try {
     const movie = await pgClient.query(`SELECT * FROM films WHERE id = ${id} LIMIT 1`);
     return { result: movie.rows[0] };
-  } catch (e) {
-    return { error: e.message };
+  } catch (error) {
+    return { error: error.message };
   }
 };
 exports.getMovieByFilters = async ({ adult, title, release_date_first, release_date_last, revenue_min, revenue_max, status, budget_min, budget_max, page, pre_page }) => {
@@ -25,7 +25,7 @@ exports.getMovieByFilters = async ({ adult, title, release_date_first, release_d
                           budget_min && budget_max ?
                               `AND page.budget BETWEEN ${budget_min} AND ${budget_max}` : ''
                               } offset ${first || 0} LIMIT ${pre_page || 1000}`);
-    
+
     return { result: { totalCount: movie.rows.length, data: movie.rows, currentPage: page } };
   } catch (e) {
     return { error: e.message };

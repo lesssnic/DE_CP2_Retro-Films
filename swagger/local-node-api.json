@@ -79,12 +79,12 @@ paths:
       - in: "header"
         name: "token"
         type: "string"
+        required: true
       responses:
         "200":
           description: "OK"
         "401":
           description: "Not Auth"
-
   /languages:
     get:
       tags:
@@ -102,6 +102,7 @@ paths:
       - in: "header"
         name: "token"
         type: "string"
+        required: true
       responses:
         "200":
           description: "OK"
@@ -124,6 +125,7 @@ paths:
       - in: "header"
         name: "token"
         type: "string"
+        required: true
       - in: "query"
         name: "id"
         type: "number"
@@ -152,6 +154,7 @@ paths:
       - in: "header"
         name: "token"
         type: "string"
+        required: true
       - in: "query"
         name: "adult"
         type: "boolean"
@@ -214,6 +217,122 @@ paths:
         "401":
           description: "Not Auth"
 
+  /review:
+    get:
+      tags:
+      - "review"
+      summary: "Get review by ID"
+      description: ""
+      operationId: "Get review by ID"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "token"
+        type: "string"
+        required: true
+      - in: "query"
+        name: "id"
+        type: "number"
+        description: "ID of movie to reviews return"
+        required: true
+        format: "int64"
+      responses:
+        "200":
+          description: "OK"
+        "401":
+          description: "Not Auth"
+    post:
+      tags:
+      - "review"
+      summary: "Create review"
+      description: ""
+      operationId: "Create review"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "token"
+        type: "string"
+        required: true
+      - in: "body"
+        name: "body"
+        description: "Create review"
+        required: true
+        schema:
+          $ref: "#/definitions/review-create"
+      responses:
+        "200":
+          description: "Review created"
+        "406":
+          description: "Bad request, wrong data, movie not exists"
+        "500":
+          description: "Base error"
+    put:
+      tags:
+      - "review"
+      summary: "Update review"
+      description: ""
+      operationId: "Update review"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "token"
+        type: "string"
+        required: true
+      - in: "body"
+        name: "body"
+        description: "Create review"
+        required: true
+        schema:
+          $ref: "#/definitions/review-create"
+      responses:
+        "200":
+          description: "Review updated"
+        "400":
+          description: "Bad request, wrong data"
+    delete:
+      tags:
+      - "review"
+      summary: "Delete review by ID"
+      description: ""
+      operationId: "Delete review by ID"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "header"
+        name: "token"
+        type: "string"
+        required: true
+      - in: "query"
+        name: "id"
+        type: "number"
+        description: "ID of review to delete"
+        required: true
+        format: "int64"
+      responses:
+        "200":
+          description: "OK"
+        "401":
+          description: "Not Auth"
+
 definitions:
   sign-in:
     type: "object"
@@ -233,6 +352,14 @@ definitions:
         type: "string"
       password:
         type: "string"
+  review-create:
+    type: "object"
+    properties:
+      movie_id:
+        type: "number"
+      content:
+        type: "string"
+
 
 externalDocs:
   description: "Find out more about Swagger"

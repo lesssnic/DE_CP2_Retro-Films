@@ -23,7 +23,7 @@ const getUser = async (body) => {
         if (ifValidate) result.token = await genToken(result[0]);
     }
     const data = getStatus(result);
-    if (dbError) return { error: { status: 500, data: { dbError } } };
+    if (dbError) return { error: dataBaseError.dbError(dbError) };
     return { result: data };
 };
 

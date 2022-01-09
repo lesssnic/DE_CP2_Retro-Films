@@ -4,5 +4,6 @@ module.exports = {
     GENRES: '/genres',
     LANGUAGES: '/languages',
     MOVIE: '/movie',
-    MOVIES: '/movies'
+    MOVIES: '/movies',
+    REVIEW: '/review'
 }
