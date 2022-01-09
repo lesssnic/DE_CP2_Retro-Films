@@ -1,6 +1,6 @@
 const pgClient = require('../database/dbconnect');
 const axios = require('axios');
-const {link} = require('../constants/link');
+const { link } = require('../constants/link');
 
 const getMovies = async (page) => {
     try {
@@ -23,23 +23,17 @@ const getGenresForFilms = async () => {
         const films = await getMovies(i);
         for (let value of films.data.results) {
             data.push({ id: value.id, genres: [...new Set(value.genre_ids)] });
+            console.log(value.id, ', ', value.genre_ids);
         }
     }
     return data;
 }
-getGenresForFilms();
+
 const vriteDataToBD = async () => {
-    try {
-        const data = await getGenresForFilms();
-        for (let value of data) {
-            value.genres.forEach(async (genres) => {
-                await pgClient.query(`INSERT INTO films_genres (films_id, genre_id) select f.id, g.id from films as f, genres as g where f.id = ${value.id} and g.id = ${genres};`);
-            })
-        }
-        return { result: true };
-    } catch (e) {
-        return { error: e.message };
+    const data = await getGenresForFilms();
+    for (let value of data) {
+        value.genres.forEach(async (genres) => {
+            await pgClient.query(`INSERT INTO films_genres (films_id, genre_id) select f.id, g.id from films as f, genres as g where f.id = ${value.id} and g.id = ${genres};`);
+        })
     }
 }
-
-vriteDataToBD();
