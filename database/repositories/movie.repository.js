@@ -4,8 +4,8 @@ exports.getMovieById = async (id) => {
   try {
     const movie = await pgClient.query(`SELECT * FROM films WHERE id = ${id} LIMIT 1`);
     return { result: movie.rows[0] };
-  } catch (e) {
-    return { error: e.message };
+  } catch (error) {
+    return { error: error.message };
   }
 };
 exports.getMovieByFilters = async (params) => {

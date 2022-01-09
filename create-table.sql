@@ -86,3 +86,17 @@ create table languages (
  name varchar(100),
  english_name varchar(100)
  );
+
+CREATE TABLE review (
+ id serial PRIMARY KEY,
+ user_id int NOT NULL, 
+ movie_id int NOT NULL,
+ content_review TEXT,
+ FOREIGN KEY (user_id) REFERENCES users(id) 
+ ON DELETE CASCADE
+ ON UPDATE CASCADE,
+ FOREIGN KEY (movie_id) REFERENCES films(id)
+ ON DELETE CASCADE
+ ON UPDATE CASCADE
+ );
+ 
