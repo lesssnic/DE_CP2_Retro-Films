@@ -32,6 +32,17 @@ const getLangAxios = async() => {
     }
 }
 
-module.exports = {getFilmDetails, getGenresAxios, getLangAxios};
+const getReviewAxios = async(id) => {
+    try{
+        const {data} = await axios.get(`https://api.themoviedb.org/3/movie/${id}/reviews`,{ params: {
+                api_key : link.API_KEY}
+        });
+        return {result: data};
+    }catch (err) {
+        return {error: err};
+    }
+}
+
+module.exports = {getFilmDetails, getGenresAxios, getLangAxios, getReviewAxios};
 
 

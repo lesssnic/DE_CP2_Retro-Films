@@ -42,4 +42,4 @@ async function deleteReview(movieId, userId) {
     }
 }
 
-module.exports = {getReview, createReview, updateReview, deleteReview};
+module.exports = {getReview, createReview, updateReview, deleteReview, getFilms};

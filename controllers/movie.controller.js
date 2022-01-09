@@ -1,5 +1,8 @@
 const validators = require('./validation');
-const { getMovieById, getMovieByFilters } = require('../database/repositories/movie.repository')
+const { getMovieById, getMovieByFilters } = require('../database/repositories/movie.repository');
+const {verifyToken, decodeToken} = require('./jwt/jwt');
+const {getStatus} = require('./status/dataBase.status');
+const {getStatusAuth} = require('./status/auth.status');
 
 exports.getSingleMovie = async (query, token) => {
     const { value, error } = verifyToken(token);
