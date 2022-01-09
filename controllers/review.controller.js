@@ -6,9 +6,13 @@ const {getStatus} = require('./status/dataBase.status');
 const {getStatusAuth} = require('./status/auth.status');
 
 
-const getLanguages = async (token) => {
+const getReview = async (token) => {
     const { value, error } = verifyToken(token);
     const err = getStatusAuth(value, error);
+    if (value) {
+        const {value: {header}} = decodeToken(token);
+        console.log(header.id);
+    }
     if (error) return {error: err};
     const {dbError, result} = await languagesRepository.getLanguages();
     const data = getStatus(result);
@@ -16,4 +20,4 @@ const getLanguages = async (token) => {
     return { result: data };
 };
 
-module.exports = {getLanguages};
+module.exports = {getReview};

@@ -20,7 +20,7 @@ const getUser = async (body) => {
     const {dbError, result} = await usersRepository.getUser(value.login);
     if(result.length) {
         const ifValidate = await checkHash(value.password, result[0].password);
-        if (ifValidate) result.token = await genToken(result);
+        if (ifValidate) result.token = await genToken(result[0]);
     }
     const data = getStatus(result);
     if (dbError) return { error: { status: 500, data: { dbError } } };
