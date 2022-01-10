@@ -2,7 +2,18 @@ const pgClient = require('../dbconnect');
 
 exports.getMovieById = async (id) => {
   try {
-    const movie = await pgClient.query(`SELECT * FROM films WHERE id = ${id} LIMIT 1`);
+    const movie = await pgClient.query(`
+    SELECT f.*, l.english_name as language_in_en, STRING_AGG(g."name" , ', ') as genres, array [r.content_review] as reviews 
+     FROM films f, genres g, films_genres fg, users u, languages l, review r 
+     WHERE f.id = ${id}
+            AND g.id = fg.genre_id
+            AND f.id = fg.films_id
+            AND l.iso_639_1 = f.original_language
+            AND u.id =r.user_id 
+            and f.id = r.movie_id 
+      group by f.id, l.english_name, r.content_review
+      LIMIT 1;
+    `);
     return { result: movie.rows[0] };
   } catch (error) {
     return { error: error.message };
@@ -11,7 +22,6 @@ exports.getMovieById = async (id) => {
 exports.getMovieByFilters = async (params) => {
   try {
     const first = (params.page * params.pre_page) - params.pre_page;
-    
     const movie = await pgClient.query(`
     SELECT * FROM (SELECT f.*, STRING_AGG(g."name" , ', ') as genres FROM films f, genres g, films_genres fg
       WHERE f.title ILIKE '%${params.title}%' 
