@@ -295,10 +295,10 @@ paths:
         required: true
       - in: "body"
         name: "body"
-        description: "Create review"
+        description: "Update review"
         required: true
         schema:
-          $ref: "#/definitions/review-create"
+          $ref: "#/definitions/review-update"
       responses:
         "200":
           description: "Review updated"
@@ -356,6 +356,13 @@ definitions:
     type: "object"
     properties:
       movie_id:
+        type: "number"
+      content:
+        type: "string"
+  review-update:
+    type: "object"
+    properties:
+      review_id:
         type: "number"
       content:
         type: "string"

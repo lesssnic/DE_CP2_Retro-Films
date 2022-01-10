@@ -20,21 +20,21 @@ async function createReview(movieId, userId, content) {
     }
 }
 
-async function updateReview(movieId, userId, content) {
+async function updateReview(reviewId, userId, content) {
     try {
         const result = await client.query(`UPDATE review SET content_review = '${content}'
-                                           WHERE movie_id = '${movieId}' AND user_id = '${userId}'
+                                           WHERE id = '${reviewId}' AND user_id = '${userId}'
                                            RETURNING movie_id;`);
         return {result: result.rows}
     }catch (error) {
         return {dbError: error}
     }
 }
-async function deleteReview(movieId, userId) {
+async function deleteReview(reviewId, userId) {
     try {
         const result = await client.query(`DELETE
                                            FROM review
-                                           WHERE movie_id = '${movieId}' AND user_id = '${userId}'
+                                           WHERE id = '${reviewId}' AND user_id = '${userId}'
                                            RETURNING id;`);
         return {result: result.rows}
     }catch (error) {
