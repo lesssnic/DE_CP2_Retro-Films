@@ -11,11 +11,10 @@ async function routerHandler(req, res, body) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS, POST, PUT, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    res.setHeader('Access-Control-Expose-Headers', 'token');
     let result, error;
     const { method, url, headers } = req;
     const { query, pathname } = URL.parse(url, true);
-    const { token } = headers;
+    const { authorization: token } = headers;
     switch (true) {
         case (req.method === "OPTIONS"):
             res.statusCode = 200;

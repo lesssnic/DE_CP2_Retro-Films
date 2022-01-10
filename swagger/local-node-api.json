@@ -77,8 +77,9 @@ paths:
       - "application/json"
       parameters:
       - in: "header"
-        name: "token"
+        name: "authorization"
         type: "string"
+        description: "token"
         required: true
       responses:
         "200":
@@ -100,8 +101,9 @@ paths:
       - "application/json"
       parameters:
       - in: "header"
-        name: "token"
+        name: "authorization"
         type: "string"
+        description: "token"
         required: true
       responses:
         "200":
@@ -123,8 +125,9 @@ paths:
       - "application/json"
       parameters:
       - in: "header"
-        name: "token"
+        name: "authorization"
         type: "string"
+        description: "token"
         required: true
       - in: "query"
         name: "id"
@@ -152,8 +155,9 @@ paths:
       - "application/json"
       parameters:
       - in: "header"
-        name: "token"
+        name: "authorization"
         type: "string"
+        description: "token"
         required: true
       - in: "query"
         name: "adult"
@@ -216,7 +220,6 @@ paths:
           description: "OK"
         "401":
           description: "Not Auth"
-
   /review:
     get:
       tags:
@@ -232,8 +235,9 @@ paths:
       - "application/json"
       parameters:
       - in: "header"
-        name: "token"
+        name: "authorization"
         type: "string"
+        description: "token"
         required: true
       - in: "query"
         name: "id"
@@ -260,8 +264,9 @@ paths:
       - "application/json"
       parameters:
       - in: "header"
-        name: "token"
+        name: "authorization"
         type: "string"
+        description: "token"
         required: true
       - in: "body"
         name: "body"
@@ -290,8 +295,9 @@ paths:
       - "application/json"
       parameters:
       - in: "header"
-        name: "token"
+        name: "authorization"
         type: "string"
+        description: "token"
         required: true
       - in: "body"
         name: "body"
@@ -318,8 +324,9 @@ paths:
       - "application/json"
       parameters:
       - in: "header"
-        name: "token"
+        name: "authorization"
         type: "string"
+        description: "token"
         required: true
       - in: "query"
         name: "id"
