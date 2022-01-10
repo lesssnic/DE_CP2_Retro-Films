@@ -33,6 +33,7 @@ CREATE TABLE films(
 	title text,
 	vote_average REAL,
 	vote_count REAL
+ foreign key (original_language) references languages(iso_639_1) 
 );
 
 DELETE FROM films WHERE status IS NULL ;
@@ -100,3 +101,8 @@ CREATE TABLE review (
  ON UPDATE CASCADE
  );
  
+ create table languages (
+ iso_639_1 varchar primary key,
+ name varchar,
+ english_name varchar
+);
