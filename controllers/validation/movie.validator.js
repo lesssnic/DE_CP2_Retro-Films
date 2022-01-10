@@ -27,7 +27,7 @@ exports.movieQuweryValidator = Joi.object().keys({
     pre_page: Joi.number().integer().min(0).empty(['', null]).default(100),
     budget_min: Joi.number().integer().min(0).empty(['', null]).default(0),
     budget_max: Joi.number().integer().min(0).empty(['', null]).default(999999999),
-    language: Joi.string().alphanum().allow(null, ''),
+    language: Joi.string().alphanum().allow(null, '').empty(['', null]).default(''),
     popularity_min: Joi.number().integer().min(0).empty(['', null]).default(0),
     popularity_max: Joi.number().integer().min(0).empty(['', null]).default(999999999),
     release_date_first: Joi.string().allow(null, '').empty(['', null]).default('1950-01-01'),
