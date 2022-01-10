@@ -18,7 +18,7 @@ exports.getMovieById = async (id) => {
      GROUP BY f.id, l.english_name
      LIMIT 1;
     `);
-    return { result: movie.rows[0] };
+    return { result: movie.rows };
   } catch (error) {
     return { error: error.message };
   }
@@ -42,9 +42,8 @@ exports.getMovieByFilters = async (params) => {
       offset ${first} LIMIT ${params.pre_page}) filters
       WHERE genres ILIKE '%${params.genre}%'
       `);
-
-    return { result: { count: movie.rows.length, data: movie.rows, currentPage: params.page } };
-  } catch (e) {
-    return { error: e.message };
+    return { result: movie.rows };
+  } catch (error) {
+    return { error: error.message };
   }
 };
