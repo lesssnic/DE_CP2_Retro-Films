@@ -15,7 +15,7 @@ async function routerHandler(req, res, body) {
     let result, error;
     const { method, url, headers } = req;
     const { query, pathname } = URL.parse(url, true);
-    const { token } = headers;
+    const { authorization: token } = headers;
     switch (true) {
         case (req.method === "OPTIONS"):
             res.statusCode = 200;
@@ -35,9 +35,11 @@ async function routerHandler(req, res, body) {
             break;
         case (method === 'GET' && pathname === MOVIE):
             ({ result, error } = await getSingleMovie(query, token));
+            if (result) result = {data: result.data[0], status: result.status};
             break;
         case (method === 'GET' && pathname === MOVIES):
             ({ result, error } = await getMovies(query, token));
+            if (result) result = { count: result.length, data: result, status: result.status };
             break;
         case (method === 'GET' && pathname === REVIEW):
             ({ result, error } = await getReview(token, query));
