@@ -3,22 +3,20 @@ const pgClient = require('../dbconnect');
 exports.getMovieById = async (id) => {
   try {
     const movie = await pgClient.query(`
-    SELECT f.*, l.english_name as language_in_en, g.genres, JSON_AGG(
-      JSON_BUILD_OBJECT(
-          'login', u.login ,
-          'content', r.content_review
-          )) as reviews 
-       FROM films f, languages l, review r, users u, 
-       (select STRING_AGG(g."name" , ', ') as genres from genres g, films f, films_genres fg 
-       where f.id = ${id}
-       and f.id = fg.films_id 
-       and g.id = fg.genre_id) g
-       WHERE f.id = ${id}
-              AND l.iso_639_1 = f.original_language
-              AND u.id =r.user_id 
-              and f.id = r.movie_id 
-        group by f.id, l.english_name, g.genres
-        LIMIT 1;
+    SELECT f.*, l.english_name as language_in_en, STRING_AGG(g."name" , ', ') as genres, 
+          JSON_AGG(JSON_BUILD_OBJECT(
+                    'login', u.login ,
+                    'content', r.content_review
+          )) as reviews
+    FROM films f, genres g, films_genres fg, users u, languages l, review r 
+    WHERE f.id = ${id}
+           AND g.id = fg.genre_id
+           AND f.id = fg.films_id
+           AND l.iso_639_1 = f.original_language
+           AND u.id =r.user_id 
+           AND f.id = r.movie_id 
+     GROUP BY f.id, l.english_name
+     LIMIT 1;
     `);
     return { result: movie.rows };
   } catch (error) {
