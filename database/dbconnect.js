@@ -1,9 +1,9 @@
-const {connectionString} = require('../constants/dataBaseConfig');
 const { Client } = require('pg');
+const { connectionString } = require('../constants/data-base-config');
 
-client = new Client({
-    connectionString,
-  })
+const client = new Client({
+  connectionString,
+});
 client.connect();
 
 module.exports = client;

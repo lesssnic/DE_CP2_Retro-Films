@@ -1,33 +1,28 @@
 const validators = require('./validation');
-const dataBaseError = require('../controllers/errors/db.error');
 const { getMovieById, getMovieByFilters } = require('../database/repositories/movie.repository');
-const {verifyToken, decodeToken} = require('./jwt/jwt');
-const {getStatus} = require('./status/dataBase.status');
-const {getStatusAuth} = require('./status/auth.status');
+const { dataBaseError } = require('../helpers/database-error.helper');
+const { verifyToken } = require('./jwt/jwt');
+const { getStatus } = require('../helpers/dataBase-status.helper');
+const { getStatusAuth } = require('../helpers/auth-status.helper');
 
-exports.getSingleMovie = async (query, token) => {
-    const { value, error } = verifyToken(token);
-    const err = getStatusAuth(value, error);
-
-    if (value) {
-        const { value, error } = validators.validate(query, validators.idValidator);
-        if (error) return { error };
-        const { error: dbError, result } = await getMovieById(value.id);
-        if (dbError) return { error: dataBaseError.dbError(dbError) };
-        return { result: getStatus(result) };
-    }
-    return { error: err };
+const getSingleMovie = async (query, token) => {
+  const { value, error } = verifyToken(token);
+  if (error) return { error: getStatusAuth(value) };
+  const { valid, errorValid } = validators.validate(query, validators.idValidator);
+  if (errorValid) return { error: errorValid };
+  const { error: dbError, result } = await getMovieById(valid.id);
+  if (dbError) return { error: dataBaseError.dbError(dbError) };
+  return { result: getStatus(result) };
 };
 
-exports.getMovies = async (query, token) => {
-    const { value, error } = verifyToken(token);
-    const err = getStatusAuth(value, error);
-    if (value) {
-        const { value, error } = validators.validate(query, validators.movieQuweryValidator);
-        if (error) return { error };
-        const { error: dbError, result } = await getMovieByFilters(value);
-        if (dbError) return { error: dataBaseError.dbError(dbError) };
-        return { result: getStatus(result) };
-    }
-    return { error: err };
+const getMovies = async (query, token) => {
+  const { value, error } = verifyToken(token);
+  if (error) return { error: getStatusAuth(value) };
+  const { valid, errorValid } = validators.validate(query, validators.movieQueryValidator);
+  if (errorValid) return { error: errorValid };
+  const { error: dbError, result } = await getMovieByFilters(valid);
+  if (dbError) return { error: dataBaseError.dbError(dbError) };
+  return { result: getStatus(result) };
 };
+
+module.exports = { getMovies, getSingleMovie };
