@@ -1,30 +1,32 @@
 const usersRepository = require('../database/repositories/users.repository');
-const dataBaseError = require('../controllers/errors/db.error');
 const validators = require('./validation');
-const {checkHash, generateHash} = require('./bcrypt/bcrypt');
-const {genToken} = require('./jwt/jwt');
-const {getStatus} = require('./status/user.status')
+const { checkHash, generateHash } = require('./bcrypt/bcrypt');
+const { genToken } = require('./jwt/jwt');
+const { dataBaseError } = require('../helpers/database-error.helper');
+const { getStatus } = require('../helpers/user-status.helper');
+const { getStatusAuth } = require('../helpers/auth-status.helper');
 
-const addUser = async (body) => {
-    const { value, error } = validators.validate(body, validators.userValidator);
-    if (error) return { error };
-    value.password = await generateHash(value.password);
-    const {dbError, result} = await usersRepository.addUser(value);
-    if (dbError) return { error: dataBaseError.dbError(dbError) };
-    return { result: { data: result, status: 200 }};
+const createUser = async (body) => {
+  const { valid, errorValid } = validators.validate(body, validators.userValidator);
+  if (errorValid) return { error: errorValid };
+  valid.password = await generateHash(valid.password);
+  const { dbError, result } = await usersRepository.createUser(valid);
+  if (dbError) return { error: dataBaseError(dbError) };
+  return { result: getStatusAuth(result) };
 };
 
-const getUser = async (body) => {
-    const { value, error } = validators.validate(body, validators.userValidator);
-    if (error) return { error };
-    const {dbError, result} = await usersRepository.getUser(value.login);
-    if(result.length) {
-        const ifValidate = await checkHash(value.password, result[0].password);
-        if (ifValidate) result.token = await genToken(result[0]);
-    }
-    const data = getStatus(result);
-    if (dbError) return { error: dataBaseError.dbError(dbError) };
-    return { result: data };
+const authenticateUser = async (body) => {
+  const { valid, errorValid } = validators.validate(body, validators.userValidator);
+  if (errorValid) return { error: errorValid };
+  const { dbError, result } = await usersRepository.authenticateUser(valid.login);
+  if (dbError) return { error: dataBaseError(dbError) };
+  const ifValidate = await checkHash(valid.password, result[0].password);
+  if (ifValidate) {
+    const { token, errorToken } = genToken(result[0]);
+    if (errorToken) return { error: errorToken };
+    result.token = token;
+  }
+  return { result: getStatus(result) };
 };
 
-module.exports = {addUser, getUser};
+module.exports = { createUser, authenticateUser };

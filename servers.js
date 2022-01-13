@@ -1,15 +1,13 @@
-require('./database/dbconnect')
-const {routerHandler} = require('./router/router');
+require('./database/dbconnect');
 const http = require('http');
-
+const { routerHandler } = require('./router/router');
 
 function requestListener(req, res) {
   const bodyBuffer = [];
   req.on('data', (chunk) => {
-    bodyBuffer.push(chunk)
-  })
+    bodyBuffer.push(chunk);
+  });
   req.on('end', async () => {
-    // let temp = Buffer.concat(bodyBuffer).toString();
     const body = bodyBuffer.length ? JSON.parse(bodyBuffer) : null;
     await routerHandler(req, res, body);
   });
