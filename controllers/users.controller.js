@@ -20,11 +20,13 @@ const authenticateUser = async (body) => {
   if (errorValid) return { error: errorValid };
   const { dbError, result } = await usersRepository.authenticateUser(valid.login);
   if (dbError) return { error: dataBaseError(dbError) };
-  const ifValidate = await checkHash(valid.password, result[0].password);
-  if (ifValidate) {
-    const { token, errorToken } = genToken(result[0]);
-    if (errorToken) return { error: errorToken };
-    result.token = token;
+  if (result.length) {
+    const ifValidate = await checkHash(valid.password, result[0].password);
+    if (ifValidate) {
+      const { token, errorToken } = genToken(result[0]);
+      if (errorToken) return { error: errorToken };
+      result.token = token;
+    }
   }
   return { result: getStatus(result) };
 };
