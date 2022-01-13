@@ -3,20 +3,33 @@ const pgClient = require('../dbconnect');
 exports.getMovieById = async (id) => {
   try {
     const movie = await pgClient.query(`
-    SELECT f.*, l.english_name as language_in_en, STRING_AGG(g."name" , ', ') as genres, 
-          JSON_AGG(JSON_BUILD_OBJECT(
-                    'login', u.login ,
-                    'content', r.content_review
-          )) as reviews
-    FROM films f, genres g, films_genres fg, users u, languages l, review r 
-    WHERE f.id = ${id}
-           AND g.id = fg.genre_id
-           AND f.id = fg.films_id
-           AND l.iso_639_1 = f.original_language
-           AND u.id =r.user_id 
-           AND f.id = r.movie_id 
-     GROUP BY f.id, l.english_name
-     LIMIT 1;
+    SELECT f.*, l.english_name as language_in_en, g.genres , JSON_AGG(r.reviews) as reviews 
+     FROM films f left join languages l on f.original_language = l.iso_639_1,
+     (
+     	SELECT f1.id, STRING_AGG(g."name" , ', ') as genres FROM genres g, films f1, films_genres fg 
+		WHERE f1.id = ${id}
+			and f1.id = fg.films_id 
+			AND g.id = fg.genre_id 
+			group by f1.id 
+		LIMIT 1
+     ) g left join 
+     (
+     select f2.id, 
+    JSON_BUILD_OBJECT(
+    	'review_id', r.id,
+        'login', u.login ,
+        'content', r.content_review
+        ) as reviews
+      from  review r, users u, films f2 
+      where r.movie_id = ${id}
+      and f2.id = r.movie_id 
+            AND u.id = r.user_id
+            group by r.id, u.login, f2.id
+     ) r on r.id = g.id 
+     WHERE f.id = ${id}
+            AND l.iso_639_1 = f.original_language
+      GROUP BY f.id, l.english_name , g.genres, r.id
+      LIMIT 1;
     `);
     return { result: movie.rows };
   } catch (error) {
@@ -31,7 +44,7 @@ exports.getMovieByFilters = async (params) => {
       WHERE f.title ILIKE '%${params.title}%' 
             AND f.release_date BETWEEN '${params.release_date_first}' AND '${params.release_date_last}'
             AND f.revenue BETWEEN ${params.revenue_min} AND ${params.revenue_max}
-            AND f.status LIKE '%${params.status}%'
+            AND f.status ILIKE '%${params.status}%'
             AND f.adult = '${params.adult}'
             AND f.budget BETWEEN ${params.budget_min} AND ${params.budget_max} 
             AND f.popularity BETWEEN ${params.popularity_min} AND ${params.popularity_max}

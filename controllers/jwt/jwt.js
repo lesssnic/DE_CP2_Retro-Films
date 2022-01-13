@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 const secret = 'ryeitooel';
 
-exports.genToken = ({first_name, last_name, login, id}) => { return jwt.sign(
+exports.genToken = ({first_name, last_name, login, id}) => jwt.sign(
     {first_name, last_name, login}, secret, {
         expiresIn: 60 * 60 * 24,
         header: {id: id}
-    })};
+    });
 
 exports.verifyToken = (token) => {
     let value, error;
