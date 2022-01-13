@@ -75,12 +75,6 @@ paths:
       produces:
       - "application/xml"
       - "application/json"
-      parameters:
-      - in: "header"
-        name: "authorization"
-        type: "string"
-        description: "token"
-        required: true
       responses:
         "200":
           description: "OK"
@@ -99,12 +93,6 @@ paths:
       produces:
       - "application/xml"
       - "application/json"
-      parameters:
-      - in: "header"
-        name: "authorization"
-        type: "string"
-        description: "token"
-        required: true
       responses:
         "200":
           description: "OK"

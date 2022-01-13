@@ -30,10 +30,10 @@ async function routerHandler(req, res, body) {
       if (result) res.setHeader('token', `${result.token}`);
       break;
     case (method === 'GET' && pathname === GENRES):
-      ({ result, error } = await getGenres(token));
+      ({ result, error } = await getGenres());
       break;
     case (method === 'GET' && pathname === LANGUAGES):
-      ({ result, error } = await getLanguages(token));
+      ({ result, error } = await getLanguages());
       break;
     case (method === 'GET' && pathname === MOVIE):
       ({ result, error } = await getSingleMovie(query, token));
