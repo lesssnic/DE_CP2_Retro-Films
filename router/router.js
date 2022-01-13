@@ -37,7 +37,6 @@ async function routerHandler(req, res, body) {
       break;
     case (method === 'GET' && pathname === MOVIE):
       ({ result, error } = await getSingleMovie(query, token));
-      if (result) result = { data: result.data[0], status: result.status };
       break;
     case (method === 'GET' && pathname === MOVIES):
       ({ result, error } = await getMovies(query, token));
