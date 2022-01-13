@@ -41,7 +41,6 @@ async function routerHandler(req, res, body) {
       break;
     case (method === 'GET' && pathname === MOVIES):
       ({ result, error } = await getMovies(query, token));
-      if (result) result = { count: result.length, data: result, status: result.status };
       break;
     case (method === 'GET' && pathname === REVIEW):
       ({ result, error } = await getReview(token, query));
@@ -71,7 +70,7 @@ async function routerHandler(req, res, body) {
   } else {
     res = setJsonHeader(res);
     res.statusCode = result.status;
-    res.end(JSON.stringify({ data: result.data }));
+    res.end(JSON.stringify(result));
   }
 }
 module.exports = { routerHandler };

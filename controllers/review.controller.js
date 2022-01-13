@@ -43,7 +43,7 @@ const updateReview = async (token, body) => {
 const deleteReview = async (token, query) => {
   const { value, error } = verifyToken(token);
   if (error) return { error: getStatusAuth(value) };
-  const { valid, errorValid } = validators.validate(query, validators.reviewUpdateValidator);
+  const { valid, errorValid } = validators.validate(query, validators.idValidator);
   if (errorValid) return { error: errorValid };
   const { id: reviewId } = valid;
   const { value: { header: { id: userId } } } = decodeToken(token);
