@@ -2,7 +2,12 @@ const client = require('../dbconnect');
 
 async function getReview(movieId) {
   try {
-    const result = await client.query(`SELECT * FROM review WHERE movie_id = '${movieId}'`);
+    const result = await client.query(`
+      SELECT r.*, u.login FROM review r 
+      INNER JOIN users u 
+      on r.user_id = u.id 
+      WHERE movie_id = ${movieId};'
+    `);
     return { result: result.rows };
   } catch (error) {
     return { dbError: error };
