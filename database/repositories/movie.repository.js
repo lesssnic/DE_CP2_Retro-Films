@@ -19,7 +19,7 @@ exports.getMovieById = async (id) => {
             (
             'review_id', r.id,
             'login', u.login ,
-            'content', r.content_review
+            'content_review', r.content_review
             ) AS reviews
           FROM  review r, users u, films f2 
           WHERE r.movie_id = ${id}
