@@ -6,7 +6,7 @@ async function getReview(movieId) {
       SELECT r.*, u.login FROM review r 
       INNER JOIN users u 
       on r.user_id = u.id 
-      WHERE movie_id = '${movieId}';'
+      WHERE movie_id = '${movieId}'
     `);
     return { result: result.rows };
   } catch (error) {
